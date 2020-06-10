@@ -12,6 +12,10 @@ public class RayCastWeapon : MonoBehaviour
     public TrailRenderer trail;
     Ray ray;
     RaycastHit hitInfo;
+    private void Start()
+    {
+        Physics.queriesHitBackfaces = false;
+    }
     public void StartFiring()
     {
         isFiring = true;
