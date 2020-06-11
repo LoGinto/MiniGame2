@@ -30,11 +30,5 @@ public class Landed : MonoBehaviour
             gameObject.GetComponent<Landed>().enabled = false;
             gameObject.GetComponent<Aerial>().enabled = false;
         }
-        //else
-        //{
-        //    GetComponent<Aiming>().enabled = false;
-        //    weapon.SetActive(false);
-        //    GetComponent<Locomotion>().enabled = false;
-        //}
     }
 }

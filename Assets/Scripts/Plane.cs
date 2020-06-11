@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Plane : MonoBehaviour
-{
-    [SerializeField]GameObject disabledMesh1;
-    [SerializeField]GameObject disabledMesh2;
-    [SerializeField] GameObject weaponToDisable;
+{ 
     [SerializeField] GameObject prop;
+    [SerializeField] GameObject virtualCamToDIsable;
+    [SerializeField] Camera planeCam;
+    [SerializeField] GameObject mainCamToDisable;
     [SerializeField] float planeSpeed;
     [SerializeField]GameObject player;
     private bool playerEjected = false;
@@ -22,21 +22,24 @@ public class Plane : MonoBehaviour
         }
         playerEjected = false;
         player.transform.parent = gameObject.transform;
+        player.SetActive(false);
         locomotionScriptToDisable = player.GetComponent<Locomotion>();
-        aimScriptToDisable = player.GetComponent<Aiming>();
-        disabledMesh1.SetActive(false);
+        aimScriptToDisable = player.GetComponent<Aiming>();      
         aimScriptToDisable.enabled = false;
-        locomotionScriptToDisable.enabled = false;
-        disabledMesh2.SetActive(false);
-        weaponToDisable.SetActive(false);
+        locomotionScriptToDisable.enabled = false;      
         playerRigid = player.GetComponent<Rigidbody>();
         playerRigid.useGravity = false;
+        mainCamToDisable.SetActive(false);
+        planeCam.gameObject.SetActive(true);    
+        virtualCamToDIsable.SetActive(false);
     }
     public void EjectPlayer()
     {
-        disabledMesh1.SetActive(true);
-        disabledMesh2.SetActive(true);
         playerRigid.useGravity = true;
+        player.SetActive(true);
+        planeCam.gameObject.SetActive(false);
+        virtualCamToDIsable.SetActive(true);
+        mainCamToDisable.SetActive(true);
         player.transform.parent = null;
         playerEjected = true;
     }
@@ -49,10 +52,7 @@ public class Plane : MonoBehaviour
         transform.Translate(Vector3.forward * planeSpeed * Time.deltaTime);
         prop.transform.Rotate(new Vector3(0,0,180));
     }
-    public GameObject GetWeapon()
-    {
-        return weaponToDisable;
-    }
+   
     public Locomotion GetLocomotionScript()
     {
         return locomotionScriptToDisable;
