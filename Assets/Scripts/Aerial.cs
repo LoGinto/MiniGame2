@@ -34,7 +34,11 @@ public class Aerial : MonoBehaviour
             }
             if (opened)
             {
-                gameObject.GetComponent<Rigidbody>().drag = drag;    
+                gameObject.GetComponent<Rigidbody>().drag = drag;
+                if (landed.IsOnLand())
+                {
+                    drag = 0;
+                }
             }
             //insert falling here
 

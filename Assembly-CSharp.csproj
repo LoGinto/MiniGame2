@@ -67,6 +67,7 @@
     <Compile Include="Assets\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
     <Compile Include="Assets\Scripts\Aerial.cs" />
     <Compile Include="Assets\Scripts\Aiming.cs" />
+    <Compile Include="Assets\Scripts\AirForAI.cs" />
     <Compile Include="Assets\Scripts\CarBase.cs" />
     <Compile Include="Assets\Scripts\CrossHairTarget.cs" />
     <Compile Include="Assets\Scripts\Driving.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets\Scripts\LastEjectPoint.cs" />
     <Compile Include="Assets\Scripts\Locomotion.cs" />
     <Compile Include="Assets\Scripts\Plane.cs" />
+    <Compile Include="Assets\Scripts\PriorDestinationFOrAiAir.cs" />
     <Compile Include="Assets\Scripts\RayCastWeapon.cs" />
     <None Include="Assets\EffectExamples\Misc Effects\Prefabs\Readme_Dissolve_Respawn_.txt" />
     <None Include="Assets\EffectExamples\Magic Effects\Shaders\Ice.shader" />
