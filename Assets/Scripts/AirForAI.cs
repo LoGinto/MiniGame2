@@ -11,18 +11,23 @@ public class AirForAI : MonoBehaviour
     Rigidbody rigid;
     private float distanceToGround;
     Collider aiCollider;
+    private bool firstLanding;
     public float parachuteSpeed = 5f;
     private bool openedChute = false;
     private float randomOpenTime;
+    GameObject dest;
+    Animator animator;
     private void Start()
     {
         parachute.gameObject.SetActive(false);
-        aiCollider = GetComponent<Collider>();       
+        aiCollider = GetComponent<Collider>();
+        animator = GetComponent<Animator>();
         distanceToGround = aiCollider.bounds.extents.y;
         randomOpenTime = Random.Range(2, 7);
-        GameObject dest = Instantiate(destination);
+        dest = Instantiate(destination);
         landTo = dest.transform;
         rigid = GetComponent<Rigidbody>();
+        firstLanding = false;
     }
     public bool AiOnLand()
     {
@@ -34,12 +39,20 @@ public class AirForAI : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        TowardsTheRandPos();
+        try
+        {
+            TowardsTheRandPos();
+        }
+        catch
+        {
+            return;
+        }
     }
     void TowardsTheRandPos()
     {
         if (openedChute && AiOnLand() == false)
         {
+            transform.LookAt(landTo.position);
             transform.position = Vector3.MoveTowards(transform.position,landTo.position * parachuteSpeed * Time.deltaTime,1);
         }
     }
@@ -56,10 +69,17 @@ public class AirForAI : MonoBehaviour
         if (openedChute)
         {
             gameObject.GetComponent<Rigidbody>().drag = rigidDrag;
+            animator.SetBool("Idle", true);
             if (AiOnLand() == true)
             {
                 rigidDrag = 0;
                 parachute.gameObject.SetActive(false);
+                Destroy(dest);
+            }
+            if(AiOnLand() == true && !firstLanding)
+            {
+                firstLanding = true;
+                animator.SetTrigger("Land");
             }
         }
     }
