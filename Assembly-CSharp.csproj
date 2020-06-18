@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Aiming.cs" />
     <Compile Include="Assets\Scripts\AirForAI.cs" />
     <Compile Include="Assets\Scripts\CarBase.cs" />
+    <Compile Include="Assets\Scripts\Cover.cs" />
     <Compile Include="Assets\Scripts\CrossHairTarget.cs" />
     <Compile Include="Assets\Scripts\Driving.cs" />
     <Compile Include="Assets\Scripts\Landed.cs" />
