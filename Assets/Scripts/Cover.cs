@@ -22,6 +22,7 @@ public class Cover : MonoBehaviour
     private bool tookCover;
     private bool isInCover;
     GameObject hitObj;
+    RaycastHit hitInfo;
     private void Start()
     {
         playerCollider = GetComponent<Collider>();
@@ -44,15 +45,13 @@ public class Cover : MonoBehaviour
             aiming.enabled = !tookCover;
             locomotion.enabled = !tookCover;           
         }
-        //if (isInCover)
-        //{
-        //    MoveInCover();
-        //}
-
+        if (isInCover)
+        {
+            MoveInCover();
+        }
     }
    private  void TakeCover()
-    {
-        RaycastHit hitInfo;
+    {     
         Vector3 fwd = rayCastPoint.transform.TransformDirection(Vector3.forward);
         if (Physics.Raycast(rayCastPoint.position, fwd, out hitInfo, distanceToTakeCover, coverLayer))
         {
@@ -63,7 +62,7 @@ public class Cover : MonoBehaviour
                 if (Vector3.Distance(transform.position,hitInfo.point)>=stickToCoverDist)
                 {
                     //roll to cover
-                    //got problem here
+                    //got problem here but nothing too big
                     transform.position = Vector3.MoveTowards(transform.position, hitInfo.point, rollSpeed);
                 }
                 else 
@@ -73,7 +72,7 @@ public class Cover : MonoBehaviour
                     if (hitObj.GetComponent<Collider>().bounds.max.y >= playerCollider.bounds.max.y)
                     {
                         //do the stand anim  
-                        animator.SetBool("Stand", true);
+                        //animator.SetBool("Stand", true);
                         isInCover = true;
                         Debug.Log("I stand in cover ");                        
                     }
@@ -96,9 +95,22 @@ public class Cover : MonoBehaviour
         animator.runtimeAnimatorController = normalController;
         playerCapsule.height = initialCapsuleHeight;
     }
-    //private void MoveInCover()
-    //{
-       
-    //}
+    private void MoveInCover()
+    {
+        Vector3 normal = hitInfo.normal;
+        Vector3 tangent;
+        Vector3 t1 = Vector3.Cross(normal, Vector3.forward);
+        Vector3 t2 = Vector3.Cross(normal, Vector3.up);
+        if (t1.magnitude > t2.magnitude)
+        {
+            tangent = t1;
+        }
+        else
+        {
+            tangent = t2;
+        }
+        Vector3 moveDirection = Input.GetAxis("Horizontal") * tangent;
+        transform.Translate(moveDirection * moveInCoverSpeed,Space.World);
+    }
 
 }
