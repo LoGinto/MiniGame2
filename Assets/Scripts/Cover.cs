@@ -20,9 +20,12 @@ public class Cover : MonoBehaviour
     private float initialCapsuleHeight;
     CapsuleCollider playerCapsule;
     private bool tookCover;
+    float axis;
     private bool isInCover;
+    public bool facingRight = true;
     GameObject hitObj;
     RaycastHit hitInfo;
+    Vector3 initialCenter;
     private void Start()
     {
         playerCollider = GetComponent<Collider>();
@@ -32,10 +35,11 @@ public class Cover : MonoBehaviour
         tookCover = false;
         playerCapsule = GetComponent<CapsuleCollider>();
         initialCapsuleHeight = playerCapsule.height;
+        initialCenter = playerCapsule.center;
     }
     private void Update()
     {
-
+        Debug.Log(axis);
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (tookCover == false)
@@ -48,9 +52,35 @@ public class Cover : MonoBehaviour
         if (isInCover)
         {
             MoveInCover();
+            //while facing right there is a problem, so I need to reset it afterwards
+            Regulate();
         }
     }
-   private  void TakeCover()
+    private void Regulate()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            facingRight = !facingRight;
+        }
+         
+        if (!facingRight) //then I have to check wheter I am moving or not
+        {           
+            animator.SetBool("CrouchIdleMirrored", true);           
+            //0.74 y center
+            //1.5 height
+            playerCapsule.center = new Vector3(0, 0.94f, 0);
+            playerCapsule.height = 0.99f;
+        }
+        if (facingRight)
+        {
+            animator.SetBool("CrouchIdleMirrored", false);          
+            playerCapsule.center = new Vector3(0, 0.82f, 0);
+            //0.71 collider height here or center?
+            playerCapsule.height = 0.99f;
+        }
+    }
+
+    private  void TakeCover()
     {     
         Vector3 fwd = rayCastPoint.transform.TransformDirection(Vector3.forward);
         if (Physics.Raycast(rayCastPoint.position, fwd, out hitInfo, distanceToTakeCover, coverLayer))
@@ -80,7 +110,9 @@ public class Cover : MonoBehaviour
                     {
                         //do the crouch anim
                         animator.SetBool("Crouch", true);
-                        playerCapsule.height = initialCapsuleHeight / 2;
+                        
+                        //0.48 y center
+                        playerCapsule.center = new Vector3(0, 0.48f, 0);
                         isInCover = true;
                         Debug.Log("I crouch in cover " + isInCover);
                     }
@@ -94,6 +126,7 @@ public class Cover : MonoBehaviour
         isInCover = false;
         animator.runtimeAnimatorController = normalController;
         playerCapsule.height = initialCapsuleHeight;
+        playerCapsule.center = initialCenter;
     }
     private void MoveInCover()
     {
@@ -109,8 +142,14 @@ public class Cover : MonoBehaviour
         {
             tangent = t2;
         }
-        Vector3 moveDirection = Input.GetAxis("Horizontal") * tangent;
-        transform.Translate(moveDirection * moveInCoverSpeed,Space.World);
+        axis = Input.GetAxis("Horizontal");
+        Vector3 moveDirection = axis * tangent;       
+        transform.Translate(moveDirection * moveInCoverSpeed,Space.World);       
     }
-
+    private void AimingFromCover()
+    {
+        //limit the camera 
+        //and shoot
+        
+    }
 }
