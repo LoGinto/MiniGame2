@@ -16,6 +16,12 @@ public class Cover : MonoBehaviour
     Collider playerCollider;
     Animator animator;
     Locomotion locomotion;
+    private bool crouched;
+    private bool stands;
+    //temporary solution is to turn off dead eye
+    DeadEye deadEye;
+    //
+    Vector3 tangent;
     Aiming aiming;
     private float initialCapsuleHeight;
     CapsuleCollider playerCapsule;
@@ -26,20 +32,22 @@ public class Cover : MonoBehaviour
     GameObject hitObj;
     RaycastHit hitInfo;
     Vector3 initialCenter;
+    
     private void Start()
-    {
+    {        
         playerCollider = GetComponent<Collider>();
         animator = GetComponent<Animator>();
         locomotion = GetComponent<Locomotion>();
         aiming = GetComponent<Aiming>();
         tookCover = false;
+        deadEye = GetComponent<DeadEye>();
         playerCapsule = GetComponent<CapsuleCollider>();
         initialCapsuleHeight = playerCapsule.height;
         initialCenter = playerCapsule.center;
     }
     private void Update()
     {
-        Debug.Log(axis);
+        Debug.Log("Axis " + axis);   
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (tookCover == false)
@@ -47,7 +55,8 @@ public class Cover : MonoBehaviour
             else
                 ExitCover();
             aiming.enabled = !tookCover;
-            locomotion.enabled = !tookCover;           
+            locomotion.enabled = !tookCover;
+            deadEye.enabled = !tookCover;
         }
         if (isInCover)
         {
@@ -58,22 +67,26 @@ public class Cover : MonoBehaviour
     }
     private void Regulate()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        //condition to flip the bool
+        if (axis < 0)
         {
-            facingRight = !facingRight;
+            facingRight = false;
         }
-         
-        if (!facingRight) //then I have to check wheter I am moving or not
-        {           
-            animator.SetBool("CrouchIdleMirrored", true);           
-            //0.74 y center
-            //1.5 height
+        if (axis > 0)
+        {
+            facingRight = true;
+        }       
+        if (!facingRight && crouched) //then I have to check wheter I am moving or not
+        {
+            animator.SetBool("LeftCrouch", true);
+            transform.rotation = Quaternion.FromToRotation(-tangent, hitInfo.normal);
             playerCapsule.center = new Vector3(0, 0.94f, 0);
             playerCapsule.height = 0.99f;
         }
-        if (facingRight)
+        if (facingRight && crouched)
         {
-            animator.SetBool("CrouchIdleMirrored", false);          
+            animator.SetBool("LeftCrouch", false);
+            transform.rotation = Quaternion.FromToRotation(tangent, hitInfo.normal);
             playerCapsule.center = new Vector3(0, 0.82f, 0);
             //0.71 collider height here or center?
             playerCapsule.height = 0.99f;
@@ -104,13 +117,16 @@ public class Cover : MonoBehaviour
                         //do the stand anim  
                         //animator.SetBool("Stand", true);
                         isInCover = true;
+                        crouched = false;
+                        stands = true;
                         Debug.Log("I stand in cover ");                        
                     }
                     else if (hitObj.GetComponent<Collider>().bounds.max.y < playerCollider.bounds.max.y)
                     {
                         //do the crouch anim
-                        animator.SetBool("Crouch", true);
-                        
+                        animator.SetTrigger("TakeCover");
+                        crouched = true;
+                        stands = false;
                         //0.48 y center
                         playerCapsule.center = new Vector3(0, 0.48f, 0);
                         isInCover = true;
@@ -130,8 +146,7 @@ public class Cover : MonoBehaviour
     }
     private void MoveInCover()
     {
-        Vector3 normal = hitInfo.normal;
-        Vector3 tangent;
+        Vector3 normal = hitInfo.normal;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         Vector3 t1 = Vector3.Cross(normal, Vector3.forward);
         Vector3 t2 = Vector3.Cross(normal, Vector3.up);
         if (t1.magnitude > t2.magnitude)
@@ -146,10 +161,10 @@ public class Cover : MonoBehaviour
         Vector3 moveDirection = axis * tangent;       
         transform.Translate(moveDirection * moveInCoverSpeed,Space.World);       
     }
-    private void AimingFromCover()
-    {
-        //limit the camera 
-        //and shoot
+    //private void AimingFromCover()
+    //{
+    //    //limit the camera 
+    //    //and shoot
         
-    }
+    //}
 }

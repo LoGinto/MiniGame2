@@ -34,6 +34,7 @@ public class DeadEye : MonoBehaviour
         if (deadEyeState == DeadEyeState.off)
         {
             aiming.enabled = true;
+            weapon.enabled = true;
             Time.timeScale = 1;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
             if (ppv.weight > 0)
@@ -44,12 +45,14 @@ public class DeadEye : MonoBehaviour
             // Reset time
             Time.timeScale = 1;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
-            aiming.enabled = false;           
+            aiming.enabled = false;
+            weapon.enabled = true;
             UpdateDeadEye();
         }
         else
         {
             Time.timeScale = 0.3f;
+            weapon.enabled = false;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;          
             aiming.enabled = true;
             if (ppv.weight < 1)
