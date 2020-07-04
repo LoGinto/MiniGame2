@@ -23,6 +23,14 @@ public class FirstPersonView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isInFirstPersonMode)
+        {
+            fpsCam.gameObject.SetActive(true);
+        }
+        else
+        {
+            fpsCam.gameObject.SetActive(false);
+        }
         
         if(weapon == null)
         {

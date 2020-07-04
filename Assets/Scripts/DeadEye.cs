@@ -11,6 +11,7 @@ public class DeadEye : MonoBehaviour
     public PostProcessVolume ppv;
     private float cooldownTimer;
     public Transform[] cross;
+    
     public enum DeadEyeState
     {
         off,
@@ -22,6 +23,7 @@ public class DeadEye : MonoBehaviour
     {
         weapon = GetComponentInChildren<RayCastWeapon>();
         aiming = GetComponent<Aiming>();
+        
     }
     private void FixedUpdate()
     {
@@ -86,6 +88,7 @@ public class DeadEye : MonoBehaviour
     }
     private void Update()
     {
+       
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (deadEyeState == DeadEyeState.off)

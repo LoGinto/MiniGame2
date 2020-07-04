@@ -11,7 +11,7 @@ public class Fps_Mouse : MonoBehaviour
     public GameObject weaponPivot;
     public GameObject player;
     Camera kamera;
-    public float turnSpeed = 15;
+    public float turnSpeed = 15;    
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;

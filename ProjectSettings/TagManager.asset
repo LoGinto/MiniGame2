@@ -9,6 +9,7 @@ TagManager:
   - AimLookAt
   - Neck
   - Weapon
+  - Fps_Cam
   layers:
   - Default
   - TransparentFX

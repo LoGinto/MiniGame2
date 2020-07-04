@@ -8,22 +8,34 @@ public class RayCastWeapon : MonoBehaviour
     public ParticleSystem[] muzzleFlash;
     public ParticleSystem hitEffect;
     public Transform rayCastOrigin;
-    public Transform rayCastDestination;
+    Transform rayCastDestination;
+    public Transform fpsRayCastDestination;
+    public Transform thirdPersonDestination;
     public float weaponDamage;
     public TrailRenderer trail;
     Ray ray;
     RaycastHit hitInfo;
     Vector3 dest;
     Vector3 origin;
+    [SerializeField]FirstPersonView fpsView;
     private void Start()
     {
+        //fpsView = GetComponentInParent<FirstPersonView>();
         Physics.queriesHitBackfaces = false;
+        if(fpsView == null)
+        {
+            rayCastDestination = thirdPersonDestination;
+        }
     }
     private void Update()
     {
-        if(rayCastDestination == null)
+        if (fpsView.isInFirstPersonMode == true)
         {
-            rayCastDestination = GameObject.FindGameObjectWithTag("AimLookAt").GetComponent<Transform>();
+            rayCastDestination = fpsRayCastDestination;
+        }
+        else
+        {
+            rayCastDestination = thirdPersonDestination;
         }
     }
     public void StartFiring()

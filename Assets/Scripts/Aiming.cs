@@ -17,13 +17,13 @@ public class Aiming : MonoBehaviour
         Cursor.visible = false;
         fps = GetComponent<FirstPersonView>();
         Cursor.lockState = CursorLockMode.Locked;
-        weapon = GetComponentInChildren<RayCastWeapon>();    
+        weapon = GetComponentInChildren<RayCastWeapon>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))   
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.visible = !Cursor.visible;
             if (Cursor.lockState == CursorLockMode.Locked)
@@ -36,7 +36,7 @@ public class Aiming : MonoBehaviour
             }
         }
         float yawCam = kamera.transform.rotation.eulerAngles.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(0,yawCam,0),turnSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCam, 0), turnSpeed * Time.fixedDeltaTime);
     }
     private void LateUpdate()
     {
@@ -52,22 +52,22 @@ public class Aiming : MonoBehaviour
                 {
                     aimLayer.weight -= Time.deltaTime * aimDuration;
                 }
-                if (Input.GetButton("Fire1"))
-                {
-                    weapon.StartFiring();
-                }
-                if (Input.GetButtonUp("Fire1"))
-                {
-                    weapon.StopFiring();
-                }
                 SetYawCam(Camera.main);
             }
-            else
+            if (Input.GetButton("Fire1"))
+            {
+                weapon.StartFiring();
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                weapon.StopFiring();
+            }
+            if (fps.isInFirstPersonMode)
             {
                 aimLayer.weight = 1;
                 SetYawCam(fps.firstPersonCamera.GetComponent<Camera>());
-            }
-        }
+            }   
+    }
         catch
         {
             return;
