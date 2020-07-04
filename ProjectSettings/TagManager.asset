@@ -6,6 +6,9 @@ TagManager:
   tags:
   - AI
   - Destination
+  - AimLookAt
+  - Neck
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -20,8 +23,8 @@ TagManager:
   - AI
   - Cover
   - PostProcessing
-  - 
-  - 
+  - Neck
+  - Weapon
   - 
   - 
   - 

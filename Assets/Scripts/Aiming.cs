@@ -9,11 +9,13 @@ public class Aiming : MonoBehaviour
     public Rig aimLayer;
     public float aimDuration = 0.3f;
     RayCastWeapon weapon;
+    FirstPersonView fps;
     // Start is called before the first frame update
     void Start()
     {
         kamera = Camera.main;
         Cursor.visible = false;
+        fps = GetComponent<FirstPersonView>();
         Cursor.lockState = CursorLockMode.Locked;
         weapon = GetComponentInChildren<RayCastWeapon>();    
     }
@@ -38,21 +40,41 @@ public class Aiming : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(1))
+        try
         {
-            aimLayer.weight += Time.deltaTime * aimDuration;
+            if (!fps.isInFirstPersonMode)
+            {
+                if (Input.GetMouseButton(1))
+                {
+                    aimLayer.weight += Time.deltaTime * aimDuration;
+                }
+                else
+                {
+                    aimLayer.weight -= Time.deltaTime * aimDuration;
+                }
+                if (Input.GetButton("Fire1"))
+                {
+                    weapon.StartFiring();
+                }
+                if (Input.GetButtonUp("Fire1"))
+                {
+                    weapon.StopFiring();
+                }
+                SetYawCam(Camera.main);
+            }
+            else
+            {
+                aimLayer.weight = 1;
+                SetYawCam(fps.firstPersonCamera.GetComponent<Camera>());
+            }
         }
-        else
+        catch
         {
-            aimLayer.weight -= Time.deltaTime * aimDuration;
+            return;
         }
-        if (Input.GetButton("Fire1"))
-        {
-            weapon.StartFiring();
-        }
-        if (Input.GetButtonUp("Fire1"))
-        {
-            weapon.StopFiring();
-        }
+    }
+    public void SetYawCam(Camera newCamera)
+    {
+        kamera = newCamera;
     }
 }

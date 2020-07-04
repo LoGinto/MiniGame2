@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35af6425b651f5e4085736293881d1d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plane: {fileID: 0}
+  weapon: {fileID: 0}
 --- !u!114 &336098819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drag: 2
   parachute: {fileID: 5427150011796287455}
-  speed: 2
+  paraChuteControlSpeed: 2
 --- !u!1 &5988035513487752044
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5986967520605466394}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Eyebrows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6390,7 +6390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5983613011446097688}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6516,7 +6516,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5986665177115103326}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12321,6 +12321,7 @@ MonoBehaviour:
   hitEffect: {fileID: 8875859640381409466}
   rayCastOrigin: {fileID: 5988099781586850399}
   rayCastDestination: {fileID: 0}
+  weaponDamage: 0
   trail: {fileID: 237549375558000094, guid: 4b08dacc51764fc4187e7031d2758746, type: 3}
 --- !u!1 &5989416004674426318
 GameObject:
@@ -12425,7 +12426,7 @@ GameObject:
   - component: {fileID: 5983965481153564762}
   - component: {fileID: 6012294181701153612}
   - component: {fileID: 6003089724759019174}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Character_Hair_Male_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12502,7 +12503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5983738440094417616}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13018,7 +13019,7 @@ GameObject:
   - component: {fileID: 5984066648166258444}
   - component: {fileID: 6011721914234318312}
   - component: {fileID: 6002789630906618700}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Character_Hair_Female_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

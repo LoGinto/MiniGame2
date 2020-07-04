@@ -34,7 +34,14 @@ public class DeadEye : MonoBehaviour
         if (deadEyeState == DeadEyeState.off)
         {
             aiming.enabled = true;
-            weapon.enabled = true;
+            try
+            {
+                weapon.enabled = true;
+            }
+            catch
+            {
+                return;
+            }
             Time.timeScale = 1;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
             if (ppv.weight > 0)
@@ -89,8 +96,9 @@ public class DeadEye : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             if (deadEyeState == DeadEyeState.off)
-                aiming.aimLayer.weight = 1;
+                aiming.aimLayer.weight = 1;            
                 weapon.StartFiring();
+            
             if (deadEyeState == DeadEyeState.aiming)
             {
                 //assigning

@@ -15,6 +15,7 @@ public class Cover : MonoBehaviour
     [SerializeField] float moveInCoverSpeed;
     Collider playerCollider;
     Animator animator;
+    FirstPersonView fps;
     Locomotion locomotion;
     private bool crouched;
     private bool stands;
@@ -23,6 +24,7 @@ public class Cover : MonoBehaviour
     //
     Vector3 tangent;
     Aiming aiming;
+    Rigidbody rigid;
     private float initialCapsuleHeight;
     CapsuleCollider playerCapsule;
     private bool tookCover;
@@ -32,7 +34,7 @@ public class Cover : MonoBehaviour
     GameObject hitObj;
     RaycastHit hitInfo;
     Vector3 initialCenter;
-    
+    float old_pos;
     private void Start()
     {        
         playerCollider = GetComponent<Collider>();
@@ -40,6 +42,8 @@ public class Cover : MonoBehaviour
         locomotion = GetComponent<Locomotion>();
         aiming = GetComponent<Aiming>();
         tookCover = false;
+        old_pos = transform.position.x; 
+        rigid = GetComponent<Rigidbody>();
         deadEye = GetComponent<DeadEye>();
         playerCapsule = GetComponent<CapsuleCollider>();
         initialCapsuleHeight = playerCapsule.height;
@@ -47,7 +51,10 @@ public class Cover : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("Axis " + axis);   
+        if (tookCover)
+        {
+            fps.SetCamMode(1);               
+        }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (tookCover == false)
@@ -56,13 +63,20 @@ public class Cover : MonoBehaviour
                 ExitCover();
             aiming.enabled = !tookCover;
             locomotion.enabled = !tookCover;
-            deadEye.enabled = !tookCover;
+            deadEye.enabled = !tookCover;            
         }
         if (isInCover)
         {
             MoveInCover();
             //while facing right there is a problem, so I need to reset it afterwards
             Regulate();
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (isInCover)           
+        {
+            CheckForMovement();
         }
     }
     private void Regulate()
@@ -82,6 +96,7 @@ public class Cover : MonoBehaviour
             transform.rotation = Quaternion.FromToRotation(-tangent, hitInfo.normal);
             playerCapsule.center = new Vector3(0, 0.94f, 0);
             playerCapsule.height = 0.99f;
+            //will tweak these
         }
         if (facingRight && crouched)
         {
@@ -90,7 +105,9 @@ public class Cover : MonoBehaviour
             playerCapsule.center = new Vector3(0, 0.82f, 0);
             //0.71 collider height here or center?
             playerCapsule.height = 0.99f;
+            //will tweak these
         }
+        
     }
 
     private  void TakeCover()
@@ -161,10 +178,25 @@ public class Cover : MonoBehaviour
         Vector3 moveDirection = axis * tangent;       
         transform.Translate(moveDirection * moveInCoverSpeed,Space.World);       
     }
-    //private void AimingFromCover()
-    //{
-    //    //limit the camera 
-    //    //and shoot
-        
-    //}
+    private void CheckForMovement()
+    {       
+        if (old_pos < transform.position.x && crouched)
+        {
+            //apply right walk animations
+            print("Move right");
+            
+        }
+        if (old_pos > transform.position.x && crouched)
+        {
+            //apply left walk animations
+            print("Move left");
+        }
+        if(old_pos == transform.position.x && crouched)
+        {
+            //transition back to idle
+            
+        }
+        old_pos = transform.position.x;
+    }
+ 
 }

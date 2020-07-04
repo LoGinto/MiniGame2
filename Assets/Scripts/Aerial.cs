@@ -11,17 +11,23 @@ public class Aerial : MonoBehaviour
     private Vector3 moveVector;
     Camera kamera;
     Landed landed;
+    DeadEye deadEye;
+    Aiming aiming;
     // Start is called before the first frame update
     void Start()
     {
         kamera = Camera.main;
         landed = GetComponent<Landed>();
+        deadEye = GetComponent<DeadEye>();
+        aiming = GetComponent<Aiming>();
     }
     // Update is called once per frame
     void Update()
     {
         if(landed.IsOnLand() == false)
         {
+            deadEye.enabled = false;
+            aiming.enabled = false;
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (!opened)
@@ -30,7 +36,7 @@ public class Aerial : MonoBehaviour
                     opened = true;  
                 }
                
-                //inser parachute controls here
+                //insert parachute controls here
             }
             if (opened)
             {

@@ -14,10 +14,17 @@ public class RayCastWeapon : MonoBehaviour
     Ray ray;
     RaycastHit hitInfo;
     Vector3 dest;
-    Vector3 origin; 
+    Vector3 origin;
     private void Start()
     {
         Physics.queriesHitBackfaces = false;
+    }
+    private void Update()
+    {
+        if(rayCastDestination == null)
+        {
+            rayCastDestination = GameObject.FindGameObjectWithTag("AimLookAt").GetComponent<Transform>();
+        }
     }
     public void StartFiring()
     {

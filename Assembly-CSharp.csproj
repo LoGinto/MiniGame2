@@ -68,11 +68,14 @@
     <Compile Include="Assets\Scripts\Aerial.cs" />
     <Compile Include="Assets\Scripts\Aiming.cs" />
     <Compile Include="Assets\Scripts\AirForAI.cs" />
+    <Compile Include="Assets\Scripts\Behavior.cs" />
     <Compile Include="Assets\Scripts\CarBase.cs" />
     <Compile Include="Assets\Scripts\Cover.cs" />
     <Compile Include="Assets\Scripts\CrossHairTarget.cs" />
     <Compile Include="Assets\Scripts\DeadEye.cs" />
     <Compile Include="Assets\Scripts\Driving.cs" />
+    <Compile Include="Assets\Scripts\FirstPersonView.cs" />
+    <Compile Include="Assets\Scripts\Fps_Mouse.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Landed.cs" />
     <Compile Include="Assets\Scripts\LastEjectPoint.cs" />
