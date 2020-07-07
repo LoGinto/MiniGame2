@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Plane.cs" />
     <Compile Include="Assets\Scripts\PriorDestinationFOrAiAir.cs" />
     <Compile Include="Assets\Scripts\RayCastWeapon.cs" />
+    <Compile Include="Assets\Scripts\ShrinkingWall.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

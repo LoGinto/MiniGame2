@@ -33,6 +33,7 @@ public class Cover : MonoBehaviour
     public bool facingRight = true;
     GameObject hitObj;
     RaycastHit hitInfo;
+    bool movin;
     Vector3 initialCenter;
     float old_pos;
     private void Start()
@@ -51,10 +52,14 @@ public class Cover : MonoBehaviour
     }
     private void Update()
     {
-        if (tookCover)
+        if (isInCover)
         {
-            fps.SetCamMode(1);               
+            movin = CheckForMovement();
         }
+        //if (tookCover)
+        //{
+        //    fps.SetCamMode(1);               
+        //}
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (tookCover == false)
@@ -82,36 +87,67 @@ public class Cover : MonoBehaviour
     private void Regulate()
     {
         //condition to flip the bool
+        
         if (axis < 0)
         {
-            facingRight = false;
+            facingRight = false;            
         }
         if (axis > 0)
         {
-            facingRight = true;
+            facingRight = true;           
         }       
         if (!facingRight && crouched) //then I have to check wheter I am moving or not
         {
-            animator.SetBool("LeftCrouch", true);
-            transform.rotation = Quaternion.FromToRotation(-tangent, hitInfo.normal);
-            playerCapsule.center = new Vector3(0, 0.94f, 0);
-            playerCapsule.height = 0.99f;
+            LeftFlip();
+            
+            if (movin)
+            {
+                Debug.Log("Left move anim");
+               
+            }
+            else
+            {
+                
+            }
             //will tweak these
         }
         if (facingRight && crouched)
         {
-            animator.SetBool("LeftCrouch", false);
-            transform.rotation = Quaternion.FromToRotation(tangent, hitInfo.normal);
-            playerCapsule.center = new Vector3(0, 0.82f, 0);
-            //0.71 collider height here or center?
-            playerCapsule.height = 0.99f;
-            //will tweak these
+            RightFlip();
+            
+            if (movin)
+            {
+                Debug.Log("Right move anim");
+                //animator.SetBool("MovingRight", true);
+            }
+            else
+            {
+               // animator.SetBool("MovingRight", false);
+            }
         }
         
     }
 
+    private void RightFlip()
+    {
+        animator.SetBool("LeftCrouch", false);
+        transform.rotation = Quaternion.FromToRotation(tangent, hitInfo.normal);
+        playerCapsule.center = new Vector3(0, 0.82f, 0);
+        //0.71 collider height here or center?
+        playerCapsule.height = 0.99f;
+        //will tweak these
+    }
+
+    private void LeftFlip()
+    {
+        animator.SetBool("LeftCrouch", true);
+        transform.rotation = Quaternion.FromToRotation(-tangent, hitInfo.normal);
+        playerCapsule.center = new Vector3(0, 0.94f, 0);
+        playerCapsule.height = 0.99f;
+    }
+
     private  void TakeCover()
-    {     
+    {   
         Vector3 fwd = rayCastPoint.transform.TransformDirection(Vector3.forward);
         if (Physics.Raycast(rayCastPoint.position, fwd, out hitInfo, distanceToTakeCover, coverLayer))
         {
@@ -141,6 +177,7 @@ public class Cover : MonoBehaviour
                     else if (hitObj.GetComponent<Collider>().bounds.max.y < playerCollider.bounds.max.y)
                     {
                         //do the crouch anim
+                       // animator.SetBool("MovingRight", false);
                         animator.SetTrigger("TakeCover");
                         crouched = true;
                         stands = false;
@@ -178,25 +215,19 @@ public class Cover : MonoBehaviour
         Vector3 moveDirection = axis * tangent;       
         transform.Translate(moveDirection * moveInCoverSpeed,Space.World);       
     }
-    private void CheckForMovement()
+    private bool CheckForMovement()
     {       
-        if (old_pos < transform.position.x && crouched)
+        if(old_pos < transform.position.x || old_pos > transform.position.x)
         {
-            //apply right walk animations
-            print("Move right");
-            
+            old_pos = transform.position.x;
+            return true;
         }
-        if (old_pos > transform.position.x && crouched)
+        else
         {
-            //apply left walk animations
-            print("Move left");
+            old_pos = transform.position.x;
+            return false;
         }
-        if(old_pos == transform.position.x && crouched)
-        {
-            //transition back to idle
-            
-        }
-        old_pos = transform.position.x;
+        
     }
  
 }
