@@ -8,6 +8,7 @@ public class AirForAI : MonoBehaviour
     [SerializeField] private float rigidDrag = 2.5f;
     [SerializeField] Transform landTo;
     [SerializeField] GameObject destination;
+    
     Rigidbody rigid;
     private float distanceToGround;
     Collider aiCollider;
@@ -17,8 +18,10 @@ public class AirForAI : MonoBehaviour
     private float randomOpenTime;
     GameObject dest;
     Animator animator;
+    Behavior behavior;
+    UnityEngine.AI.NavMeshAgent agent;
     private void Start()
-    {
+    {       
         parachute.gameObject.SetActive(false);
         aiCollider = GetComponent<Collider>();
         animator = GetComponent<Animator>();
@@ -28,6 +31,11 @@ public class AirForAI : MonoBehaviour
         landTo = dest.transform;
         rigid = GetComponent<Rigidbody>();
         firstLanding = false;
+        behavior = GetComponent<Behavior>();
+        behavior.enabled = false;
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent.enabled = false;
+        
     }
     public bool AiOnLand()
     {
@@ -35,8 +43,27 @@ public class AirForAI : MonoBehaviour
     }
     private void Update()
     {
-        Parachuting();      
+        Parachuting();
+        if (AiOnLand() == true)
+        {
+            behavior.enabled = true;
+            agent.enabled = true;
+        }
+        else
+        {
+            agent.enabled = false;
+            behavior.enabled = false;
+        }
     }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+
+    //    if (collision.collider.tag == "Terrain" ||collision.collider.tag == "Building")
+    //    {
+    //        behavior.enabled = true;
+    //        agent.enabled = true;
+    //    }
+    //}
     private void FixedUpdate()
     {
         try

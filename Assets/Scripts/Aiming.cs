@@ -20,9 +20,19 @@ public class Aiming : MonoBehaviour
         weapon = GetComponentInChildren<RayCastWeapon>();
     }
 
+    private void Update()
+    {
+        if (weapon == null)
+        {
+            GameObject equipped = GameObject.FindGameObjectWithTag("Weapon");
+            weapon = equipped.GetComponent<RayCastWeapon>();
+            print(weapon.name + " is a weapon");
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.visible = !Cursor.visible;
@@ -70,6 +80,7 @@ public class Aiming : MonoBehaviour
     }
         catch
         {
+            Debug.Log("Something is wrong with shooting/aiming");
             return;
         }
     }

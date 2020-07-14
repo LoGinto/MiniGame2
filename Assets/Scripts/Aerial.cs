@@ -13,6 +13,7 @@ public class Aerial : MonoBehaviour
     Landed landed;
     DeadEye deadEye;
     Aiming aiming;
+    Locomotion locomotion;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,7 @@ public class Aerial : MonoBehaviour
         landed = GetComponent<Landed>();
         deadEye = GetComponent<DeadEye>();
         aiming = GetComponent<Aiming>();
+        locomotion = GetComponent<Locomotion>();
     }
     // Update is called once per frame
     void Update()
@@ -28,6 +30,7 @@ public class Aerial : MonoBehaviour
         {
             deadEye.enabled = false;
             aiming.enabled = false;
+            locomotion.enabled = false;
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (!opened)
