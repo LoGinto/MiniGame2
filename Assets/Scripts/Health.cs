@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     bool hurt = false;
     void Start()
     {
+        kamera = Camera.main;
         popUpList = new List<GameObject>();
     }
     public void TakeDamage(float damage)
@@ -59,12 +60,31 @@ public class Health : MonoBehaviour
             pop.transform.GetComponent<TextMeshPro>().fontSize = pop.transform.GetComponent<TextMeshPro>().fontSize - Time.deltaTime * 5;      
             //Use The LookRotation Function To Make Sure That The Popup Always Faces The Main Camera
             pop.transform.rotation = Quaternion.LookRotation(kamera.transform.forward);    
-        }      
+        } 
+        if(kamera == null)
+        {
+            try
+            {
+                kamera = Camera.main;
+            }
+            catch
+            {
+                try
+                {
+                    GameObject fpsobj = GameObject.FindGameObjectWithTag("Fps_Cam");
+                    kamera = fpsobj.GetComponent<Camera>();
+                }
+                catch
+                {
+                    return; 
+                }
+            }
+        }
     }
     void Die()
     {
         Debug.Log(gameObject.name + " is dead");//for now
-        //Destroy(gameObject);
+        Destroy(gameObject);//for now
     }
     public bool GetPain()
     {
@@ -74,4 +94,5 @@ public class Health : MonoBehaviour
     {
         hurt = value;
     }
+    
 }

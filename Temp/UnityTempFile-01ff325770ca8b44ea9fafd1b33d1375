@@ -327,6 +327,7 @@
 Assets\ColorSkies\Demo\Scripts\LookCamera.cs
 Assets\ColorSkies\Demo\Scripts\SkyboxChanger.cs
 "Assets\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs"
+Assets\Scripts\AIWeapon.cs
 Assets\Scripts\Aerial.cs
 Assets\Scripts\Aiming.cs
 Assets\Scripts\AirForAI.cs

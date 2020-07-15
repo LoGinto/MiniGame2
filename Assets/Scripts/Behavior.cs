@@ -31,7 +31,7 @@ public class Behavior : MonoBehaviour
     [Space(2)]
     [Header("Spotting and assigning vars")]
     public float fieldOfViewAngle = 110f;
-    [SerializeField] Transform enemy;//will be assigned later
+    [SerializeField] Transform enemy;//will be assigned later    
     //private variables
     private StateMachine state = StateMachine.calm;
     NavMeshAgent navigation;
@@ -45,6 +45,7 @@ public class Behavior : MonoBehaviour
     private float timer;
     SphereCollider sphereCollider;
     private bool closeToWall;
+    AIWeapon weapon;
     private void Awake()
     {      
         Physics.queriesHitBackfaces = false;
@@ -205,6 +206,7 @@ public class Behavior : MonoBehaviour
     {
         //attack enemy
         transform.LookAt(Vector3.Scale(enemy.position, new Vector3(0, 1, 1)));
+        weapon.Shoot();
     }
     void Evade()
     {
