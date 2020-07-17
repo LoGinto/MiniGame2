@@ -10,6 +10,9 @@ TagManager:
   - Neck
   - Weapon
   - Fps_Cam
+  - Center
+  - ZoneWall
+  - AIWeapon
   layers:
   - Default
   - TransparentFX

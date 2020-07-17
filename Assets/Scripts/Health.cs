@@ -16,35 +16,40 @@ public class Health : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-            hp -= damage;
-            hurt = true;
-            GameObject clone;
-            clone = Instantiate(popUpObject, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
-            clone.transform.GetComponent<TextMeshPro>().text = damage.ToString();
-            clone.transform.GetComponent<TextMeshPro>().color = Color.yellow;
-            clone.transform.GetComponent<TextMeshPro>().fontSize = 5;
-            int rand = Random.Range(0, 3);
-            if (rand == 0)
-            {
-                clone.transform.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Center;
-            }
-            else if (rand == 1)
-            {
-                clone.transform.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Left;
-            }
-            else if (rand == 2)
-            {
-                clone.transform.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Right;
-            }
-
-            //Add Clone To List And Start The Wait Coroutine
-            popUpList.Add(clone);
-            StartCoroutine(Wait(clone));
+        hp -= damage;
+        hurt = true;
+        DamagePopup(damage);
         if (hp <= 0)
         {
             Die();
         }
     }
+
+    private void DamagePopup(float damage)
+    {
+        GameObject clone = Instantiate(popUpObject, new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Quaternion.identity);
+        clone.transform.GetComponent<TextMeshPro>().text = damage.ToString();
+        clone.transform.GetComponent<TextMeshPro>().color = Color.yellow;
+        clone.transform.GetComponent<TextMeshPro>().fontSize = 5;
+        int rand = Random.Range(0, 3);
+        if (rand == 0)
+        {
+            clone.transform.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Center;
+        }
+        else if (rand == 1)
+        {
+            clone.transform.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Left;
+        }
+        else if (rand == 2)
+        {
+            clone.transform.GetComponent<TextMeshPro>().alignment = TMPro.TextAlignmentOptions.Right;
+        }
+
+        //Add Clone To List And Start The Wait Coroutine
+        popUpList.Add(clone);
+        StartCoroutine(Wait(clone));
+    }
+
     IEnumerator Wait(GameObject clone)
     {
         yield return new WaitForSeconds(.5f);

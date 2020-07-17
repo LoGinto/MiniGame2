@@ -24,9 +24,17 @@ public class Aiming : MonoBehaviour
     {
         if (weapon == null)
         {
-            GameObject equipped = GameObject.FindGameObjectWithTag("Weapon");
-            weapon = equipped.GetComponent<RayCastWeapon>();
-            print(weapon.name + " is a weapon");
+            try
+            {
+                GameObject equipped = GameObject.FindGameObjectWithTag("Weapon");
+                weapon = equipped.GetComponent<RayCastWeapon>();
+                Debug.Log(weapon.name + " is a weapon");
+            }
+            catch
+            {
+                Debug.LogError("Can't assign weapon");
+            }
+
         }
     }
     // Update is called once per frame

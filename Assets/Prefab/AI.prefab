@@ -29843,7 +29843,7 @@ GameObject:
   - component: {fileID: 3570300302984164010}
   m_Layer: 14
   m_Name: SM_Wep_Watergun_02
-  m_TagString: Weapon
+  m_TagString: AIWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31199,6 +31199,7 @@ MonoBehaviour:
   runSpeed: 6
   fieldOfViewAngle: 130
   enemy: {fileID: 0}
+  weaponPivot: {fileID: 4469358197743734668}
 --- !u!114 &6326566839939918029
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -40,7 +40,14 @@ public class AIWeapon : MonoBehaviour
     IEnumerator TryToKill()
     {
         audioSource.PlayOneShot(shootSound);
-        hitInfo.collider.GetComponent<Health>().TakeDamage(damage);
+        try
+        {
+            hitInfo.collider.GetComponent<Health>().TakeDamage(damage);
+        }
+        catch
+        {
+            Debug.Log(hitInfo.collider.name + " should take damage");
+        }
         yield return new WaitForSeconds(fireRate);
     }
 

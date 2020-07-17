@@ -31,7 +31,8 @@ public class Behavior : MonoBehaviour
     [Space(2)]
     [Header("Spotting and assigning vars")]
     public float fieldOfViewAngle = 110f;
-    [SerializeField] Transform enemy;//will be assigned later    
+    [SerializeField] Transform enemy;     //will be assigned later    
+    [SerializeField] Transform weaponPivot;
     //private variables
     private StateMachine state = StateMachine.calm;
     NavMeshAgent navigation;
@@ -71,6 +72,28 @@ public class Behavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (weapon == null)
+        {
+            try
+            {
+                weapon = GetComponentInChildren<AIWeapon>();
+            }
+            catch
+            {
+                if (weaponPivot != null)
+                {
+                    foreach (Transform child in weaponPivot)
+                    {
+                        if (child.CompareTag("AIWeapon"))
+                        {
+                            weapon = child.GetComponent<AIWeapon>();
+                            break;
+                        }
+                    }
+                }
+                
+            }
+        }
         if (air.AiOnLand() == true && navigation.isActiveAndEnabled)
         {
             StateAction(); 
